@@ -9,3 +9,6 @@ Tools used:
 4 - AWS EC2
 
 Context: Cloud engineers at a Big Tech company are facing excessive workloads, including activity flow monitoring, container creation and management, load balancing, and maintaining complex cloud architectures, while also needing productive downtime to improve efficiency and operational sustainability.
+
+Copy and paste this link in your browser, to see this containerized application:
+https://hub.docker.com/r/joaofelipeswt/dinogame
