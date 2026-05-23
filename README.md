@@ -13,5 +13,3 @@ Context: Cloud engineers at a Big Tech company are facing excessive workloads, i
 Click here to see this containerized application:
 https://hub.docker.com/r/joaofelipeswt/dinogame
 
-<img width="1262" height="685" alt="image" src="https://github.com/user-attachments/assets/5fbe79b5-e153-4d89-a134-4805b7cb4ba8" />
-
