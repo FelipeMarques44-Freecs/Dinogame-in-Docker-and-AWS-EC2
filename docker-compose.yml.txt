@@ -1,0 +1,19 @@
+docker-compose.yml
+version: '3.8'
+
+services:
+dinogame:
+build: .
+container_name: dinogame
+ports:
+- "8080:80"
+restart: unless-stopped
+
+# 1. INICIAR (build + run automático)
+docker compose up -d
+
+# 2. PARAR (sem perder dados)
+docker compose down
+
+# 3. VER LOGS
+docker compose logs -f dinogame

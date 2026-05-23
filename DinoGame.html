@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provimento de Serviços Computacionais | PI I</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #0f172a; /* Azul escuro minimalista (Slate 900) */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #f8fafc;
+        }
+        
+        /* Cabeçalho do Projeto */
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+            max-width: 90%;
+        }
+        h1 {
+            color: #38bdf8; /* Azul celeste tecnológico */
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+        .instructions {
+            background-color: #1e293b;
+            color: #cbd5e1;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            display: inline-block;
+            border: 1px solid #334155;
+        }
+
+        /* Container do Jogo */
+        #game-container {
+            position: relative;
+            width: 600px;
+            height: 220px;
+            background-color: #1e293b; /* Slate 800 */
+            border-bottom: 4px solid #38bdf8;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            border: 1px solid #334155;
+        }
+
+        /* Elementos do Jogo */
+        #dino {
+            position: absolute;
+            bottom: 0;
+            left: 50px;
+            width: 40px;
+            height: 43px;
+            background-color: #38bdf8; /* Dino agora combina com o tema */
+            clip-path: polygon(40% 0%, 85% 0%, 100% 15%, 100% 40%, 75% 40%, 75% 55%, 100% 55%, 100% 65%, 70% 65%, 60% 80%, 40% 80%, 40% 100%, 25% 100%, 25% 80%, 10% 80%, 10% 60%, 0% 60%, 0% 40%, 20% 40%, 20% 20%, 40% 20%);
+        }
+        .jump {
+            animation: jumpAnimation 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        @keyframes jumpAnimation {
+            0% { bottom: 0; }
+            45% { bottom: 110px; }
+            55% { bottom: 110px; }
+            100% { bottom: 0; }
+        }
+        #cactus {
+            position: absolute;
+            bottom: 0;
+            left: 600px;
+            width: 22px;
+            height: 45px;
+            background-color: #f43f5e; /* Obstáculo em vermelho/rosa vibrante para contraste */
+            clip-path: polygon(35% 0%, 65% 0%, 65% 30%, 100% 30%, 100% 60%, 65% 60%, 65% 100%, 35% 100%, 35% 50%, 0% 50%, 0% 25%, 35% 25%);
+        }
+        #score-board {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #38bdf8;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #0f172a;
+            padding: 4px 12px;
+            border-radius: 6px;
+            border: 1px solid #334155;
+        }
+
+        /* Tela de Game Over */
+        #game-over-screen {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.9);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            backdrop-filter: blur(4px);
+        }
+        #game-over-screen h2 {
+            color: #f43f5e;
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        #final-score {
+            font-size: 16px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        #restart-btn {
+            background-color: #38bdf8;
+            color: #0f172a;
+            border: none;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4);
+        }
+        #restart-btn:hover {
+            background-color: #0ea5e9;
+            transform: translateY(-2px);
+        }
+
+        /* Elementos de fundo */
+        .clouds {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.05);
+            height: 10px;
+            border-radius: 5px;
+            animation: cloudMove 10s linear infinite;
+        }
+        @keyframes cloudMove {
+            from { left: 600px; }
+            to { left: -80px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Provimento de Serviços Computacionais | Projeto Integrador I</h1>
+        <div class="subtitle">Development by João Felipe de Oliveira Marques</div>
+        <div class="instructions">Pressione <strong>Espaço</strong> ou <strong>Seta para Cima</strong> para pular</div>
+    </header>
+
+    <div id="game-container">
+        <div class="clouds" style="width: 50px; top: 50px; animation-duration: 12s;"></div>
+        <div class="clouds" style="width: 80px; top: 25px; animation-duration: 16s; animation-delay: 2s;"></div>
+        <div class="clouds" style="width: 40px; top: 80px; animation-duration: 9s; animation-delay: 5s;"></div>
+
+        <div id="dino"></div>
+        <div id="cactus"></div>
+        <div id="score-board">00000</div>
+
+        <div id="game-over-screen">
+            <h2>GAME OVER</h2>
+            <div id="final-score"></div>
+            <button id="restart-btn">Jogar Novamente</button>
+        </div>
+    </div>
+
+    <script>
+        const dino = document.getElementById("dino");
+        const cactus = document.getElementById("cactus");
+        const scoreBoard = document.getElementById("score-board");
+        const gameOverScreen = document.getElementById("game-over-screen");
+        const finalScoreDisplay = document.getElementById("final-score");
+        const restartBtn = document.getElementById("restart-btn");
+
+        let score = 0;
+        let isAlive = true;
+        let cactusPosition = 600;
+        let gameSpeed = 5;
+        let scoreInterval;
+        let gameLoopInterval;
+
+        function jump() {
+            if (!dino.classList.contains("jump") && isAlive) {
+                dino.classList.add("jump");
+                setTimeout(function () {
+                    dino.classList.remove("jump");
+                }, 500);
+            }
+        }
+
+        document.addEventListener("keydown", function (event) {
+            if (event.code === "Space" || event.code === "ArrowUp") {
+                event.preventDefault();
+                jump();
+            }
+        });
+
+        document.addEventListener("touchstart", function () {
+            if (isAlive) jump();
+        });
+
+        restartBtn.addEventListener("click", resetGame);
+
+        function startGame() {
+            isAlive = true;
+            score = 0;
+            cactusPosition = 600;
+            gameSpeed = 5.5;
+            gameOverScreen.style.display = "none";
+            cactus.style.left = cactusPosition + "px";
+            
+            scoreInterval = setInterval(() => {
+                score++;
+                scoreBoard.innerText = String(score).padStart(5, '0');
+                
+                if (score % 100 === 0 && gameSpeed < 13) {
+                    gameSpeed += 0.6;
+                }
+            }, 100);
+
+            gameLoopInterval = setInterval(() => {
+                cactusPosition -= gameSpeed;
+                if (cactusPosition < -20) {
+                    cactusPosition = 600 + Math.floor(Math.random() * 120); 
+                }
+                cactus.style.left = cactusPosition + "px";
+
+                let dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
+                
+                // Hitbox ajustada para a nova proporção do container
+                if (cactusPosition > 50 && cactusPosition < 85 && dinoBottom <= 45) {
+                    isAlive = false;
+                    clearInterval(scoreInterval);
+                    clearInterval(gameLoopInterval);
+                    
+                    finalScoreDisplay.innerText = "PONTUAÇÃO ALCANÇADA: " + String(score).padStart(5, '0');
+                    gameOverScreen.style.display = "flex";
+                }
+            }, 10);
+        }
+
+        function resetGame() {
+            clearInterval(scoreInterval);
+            clearInterval(gameLoopInterval);
+            startGame();
+        }
+
+        startGame();
+    </script>
+</body>
+</html>
